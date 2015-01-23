@@ -7,13 +7,16 @@ class AnagramFinder
     words = io.readlines.map(&:chomp)
     word = words.first
     if word
-      anas = word.chars.permutation.select do |chars|
+      # The to_a.uniq is because duplicate letters result in duplicate
+      # entries: "foo"'s permutation include "foo" and "foo" again, but
+      # with the "o"'s reversed in the 2nd instance.
+      anas = word.chars.permutation.to_a.uniq.select do |chars|
         w = chars.join
         w != word && words.include?(w)
       end
 
       if anas.any?
-        [anas]
+        [[word]+anas.map(&:join)]
       else
         []
       end
@@ -45,6 +48,11 @@ describe "AnagramFinder" do
   it "finds one anagram among: dad, add" do
     count = finder_for("dad\nadd").anagrams.count
     expect(count).to eq 1
+  end
+
+  it "outputs one anagram" do
+    anas = finder_for("dad\nadd").anagrams
+    expect(anas).to eq [["dad", "add"]]
   end
 
   def finder_for(str)
