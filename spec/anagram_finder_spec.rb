@@ -5,20 +5,21 @@ class AnagramFinder
 
   def anagrams
     words = io.readlines.map(&:chomp)
-    word = words.first
-    if word
+    result = []
+    words.each do |word|
       anas = permutations(word).select do |w|
         w != word && words.include?(w)
       end
 
       if anas.any?
-        [[word]+anas]
-      else
-        []
+        anas.push word
+        anas = anas.sort
+        unless result.include? anas
+          result.push anas
+        end
       end
-    else
-      []
     end
+    result
   end
 
   private
@@ -53,9 +54,14 @@ describe "AnagramFinder" do
     expect(count).to eq 1
   end
 
-  it "outputs one anagram" do
+  it "outputs anagram correctly" do
     anas = finder_for("dad\nadd").anagrams
-    expect(anas).to eq [["dad", "add"]]
+    expect(anas.first.sort).to eq ["add", "dad"]
+  end
+
+  it "finds two anagrams among: dad, add, eat, ate" do
+    count = finder_for("dad\nadd\neat\nate").anagrams.count
+    expect(count).to eq 2
   end
 
   def finder_for(str)
