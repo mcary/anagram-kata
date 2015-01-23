@@ -5,7 +5,21 @@ class AnagramFinder
 
   def anagrams
     words = io.readlines.map(&:chomp)
-    [words]
+    word = words.first
+    if word
+      anas = word.chars.permutation.select do |chars|
+        w = chars.join
+        w != word && words.include?(w)
+      end
+
+      if anas.any?
+        [anas]
+      else
+        []
+      end
+    else
+      []
+    end
   end
 
   private
