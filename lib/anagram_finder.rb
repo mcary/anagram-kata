@@ -5,10 +5,10 @@ class AnagramFinder
 
   def anagrams
     words = io.readlines.map(&:chomp)
-    groups = Hash.new { [] }
+    groups = Hash.new {|h,k| h[k] = [] }
     words.each do |word|
       normalized = word.chars.sort.join
-      groups[normalized] += [word]
+      groups[normalized].push word
     end
     groups.values.select {|g| g.size > 1 }
   end
