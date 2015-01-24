@@ -64,6 +64,11 @@ describe "AnagramFinder" do
     expect(count).to eq 2
   end
 
+  it "outputs two anagrams correctly" do
+    anas = finder_for("dad\nadd\neat\nate").anagrams
+    expect(anas.sort.map(&:sort)).to eq [["add", "dad"], ["ate", "eat"]]
+  end
+
   def finder_for(str)
     AnagramFinder.new(StringIO.new(str))
   end
