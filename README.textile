@@ -1,0 +1,5 @@
+h1. Anagram CodeKata
+
+This repository illustrates a solution to "Kata06: Anagrams":http://codekata.com/kata/kata06-anagrams/.
+
+The frequent commits are intended to reveal the way my code evolved along the way.
